@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Codeer.Friendly</id>
+    <version>2.1.0</version>
+    <title>Friendly</title>
+    <authors>Codeer</authors>
+    <owners>Codeer</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
+    <projectUrl>http://www.english.codeer.co.jp/test-automation/friendly-fundamental</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Friendly Common Interfaces.</description>
+    <tags>Friendly Testing Windows WPF WinForms Win32 Automation</tags>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework="net40" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="..\ReleaseBinary\Codeer.Friendly.dll" target="lib\net20" />
+    <file src="..\ReleaseBinary\Codeer.Friendly.xml" target="lib\net20" />
+    <file src="..\ReleaseBinary\ja\Codeer.Friendly.xml" target="lib\net20\ja" />
+    <file src="..\ReleaseBinary\ja\Codeer.Friendly.resources.dll" target="lib\net20\ja" />
+    <file src="..\ReleaseBinary\Codeer.Friendly.dll" target="lib\net40" />
+    <file src="..\ReleaseBinary\Codeer.Friendly.xml" target="lib\net40" />
+    <file src="..\ReleaseBinary\ja\Codeer.Friendly.xml" target="lib\net40\ja" />
+    <file src="..\ReleaseBinary\ja\Codeer.Friendly.resources.dll" target="lib\net40\ja" />
+    <file src="..\ReleaseBinary\Codeer.Friendly.Dynamic.dll" target="lib\net40" />
+    <file src="..\ReleaseBinary\Codeer.Friendly.Dynamic.xml" target="lib\net40" />
+    <file src="..\ReleaseBinary\ja\Codeer.Friendly.Dynamic.xml" target="lib\net40\ja" />
+    <file src="..\ReleaseBinary\ja\Codeer.Friendly.Dynamic.resources.dll" target="lib\net40\ja" />
+  </files>
+</package>
