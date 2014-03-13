@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8CD64A7C-848F-4466-B5F4-8C4842A6316D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Codeer.Friendly</RootNamespace>
+    <AssemblyName>Codeer.Friendly</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Codeer.Friendly.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Codeer.Friendly.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Codeer.Friendly.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Eng|AnyCPU'">
+    <OutputPath>bin\Release-Eng\</OutputPath>
+    <DefineConstants>TRACE;ENG</DefineConstants>
+    <DocumentationFile>bin\Release\Codeer.Friendly.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppFriend.cs" />
+    <Compile Include="AppVar.cs" />
+    <Compile Include="Async.cs" />
+    <Compile Include="Enumerate.cs" />
+    <Compile Include="FriendlyOperation.cs" />
+    <Compile Include="FriendlyOperationException.cs" />
+    <Compile Include="IAppVarOwner.cs" />
+    <Compile Include="IAppVarSelf.cs" />
+    <Compile Include="IDefinition.cs" />
+    <Compile Include="Inside\AsyncFriendlyOperationOwner.cs" />
+    <Compile Include="Inside\FriendlyInfoAttribute.cs" />
+    <Compile Include="Inside\OperationTalker.cs" />
+    <Compile Include="Inside\FriendlyOperationOwner.cs" />
+    <Compile Include="Inside\Protocol\ExceptionInfo.cs" />
+    <Compile Include="Inside\Protocol\ProtocolInfo.cs" />
+    <Compile Include="Inside\Protocol\ProtocolType.cs" />
+    <Compile Include="Inside\Protocol\IFriendlyConnector.cs" />
+    <Compile Include="Inside\Protocol\ReturnInfo.cs" />
+    <Compile Include="Inside\Protocol\VarAddress.cs" />
+    <Compile Include="Inside\FriendlyTalker.cs" />
+    <Compile Include="Inside\InformationException.cs" />
+    <Compile Include="Inside\InternalException.cs" />
+    <Compile Include="Inside\StaticOperationTalker.cs" />
+    <Compile Include="NewInfo.cs" />
+    <Compile Include="OperationTypeInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.ja.Designer.cs">
+      <DependentUpon>Resources.ja.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.ja.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.ja.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Codeer.Friendly.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir "../../../ReleaseBinary"
+mkdir "../../../ReleaseBinary/ja"
+if $(ConfigurationName) == Release Copy "$(TargetPath)" "../../../ReleaseBinary/$(TargetFileName)"
+if $(ConfigurationName) == Release-Eng Copy "$(TargetDir)\$(TargetName).xml" "../../../ReleaseBinary/$(TargetName).xml"
+if $(ConfigurationName) == Release Copy "$(TargetDir)\$(TargetName).xml" "../../../ReleaseBinary/ja/$(TargetName).xml"
+if $(ConfigurationName) == Release Copy "$(TargetDir)\ja\$(TargetName).resources.dll" "../../../ReleaseBinary/ja/$(TargetName).resources.dll"
+if $(ConfigurationName) == Debug Copy "$(TargetPath)" "../../../Binary/$(TargetFileName)"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
