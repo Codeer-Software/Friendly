@@ -103,7 +103,7 @@ namespace Codeer.Friendly
 	{
 #if ENG
         /// <summary>
-        /// Constructor for NewInfo<T>, not NewInfo.
+        /// Constructor for NewInfo＜T＞, not NewInfo.
         /// Provides one way of indicating the desired type.
         /// </summary>
         /// <param name="args">
