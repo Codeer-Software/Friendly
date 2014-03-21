@@ -1,15 +1,19 @@
-﻿namespace Codeer.Friendly
+﻿using System;
+namespace Codeer.Friendly
 {
 #if ENG
     /// <summary>
     /// Show that it is equivalent to him.
+    /// Generally, please use IAppVarOwner. 
     /// </summary>
 #else
     /// <summary>
     /// AppVarとほぼ等価な存在を表すインターフェイス。
     /// ライブラリ内で使います。
+    /// 一般的にはIAppVarOwnerを使ってください。
     /// </summary>
 #endif
+    [Obsolete("Please use one of the following. IAppVarOwner", false)]
     public interface IAppVarSelf
     {
 #if ENG

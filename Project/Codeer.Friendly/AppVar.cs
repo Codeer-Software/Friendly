@@ -48,6 +48,17 @@ namespace Codeer.Friendly
         /// </summary>
         internal override IFriendlyConnector FriendlyConnector { get { return _friendlyConnector; } }
 
+#if ENG
+        /// <summary>
+        /// Returns the associated application manipulation object.
+        /// </summary>
+#else
+        /// <summary>
+        /// アプリケーション操作クラスを取得します。
+        /// </summary>
+#endif
+        public AppFriend App { get { return _friendlyConnector.App; } }
+
 		/// <summary>
         /// コンストラクタ。
 		/// </summary>

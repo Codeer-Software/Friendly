@@ -17,6 +17,11 @@ namespace Codeer.Friendly.Inside.Protocol
 		/// </summary>
 		/// <param name="info">通信情報。</param>
 		/// <returns>戻り値。</returns>
-		ReturnInfo SendAndReceive(ProtocolInfo info); 
+		ReturnInfo SendAndReceive(ProtocolInfo info);
+
+        /// <summary>
+        /// アプリケーション操作クラスを取得します。
+        /// </summary>
+        AppFriend App { get; }
 	}
 }
