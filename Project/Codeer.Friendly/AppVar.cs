@@ -59,6 +59,17 @@ namespace Codeer.Friendly
 #endif
         public AppFriend App { get { return _friendlyConnector.App; } }
 
+#if ENG
+        /// <summary>
+        /// Get that variables in the target application is null.
+        /// </summary>
+#else
+        /// <summary>
+        /// アプリケーション内変数がnullであるかを取得します。
+        /// </summary>
+#endif
+        public bool IsNull { get { return (bool)SendAndValueReceive(ProtocolType.IsEmptyVar, null, string.Empty, new object[] { this }); } }
+
 		/// <summary>
         /// コンストラクタ。
 		/// </summary>
