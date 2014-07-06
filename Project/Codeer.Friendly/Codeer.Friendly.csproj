@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="AppFriend.cs" />
     <Compile Include="AppVar.cs" />
+    <Compile Include="AppVarHelper.cs" />
     <Compile Include="Async.cs" />
     <Compile Include="Enumerate.cs" />
     <Compile Include="FriendlyOperation.cs" />
