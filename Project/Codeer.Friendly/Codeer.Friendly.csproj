@@ -58,6 +58,7 @@
     <Compile Include="AppVarHelper.cs" />
     <Compile Include="Async.cs" />
     <Compile Include="Enumerate.cs" />
+    <Compile Include="ExplicitAppVar.cs" />
     <Compile Include="FriendlyOperation.cs" />
     <Compile Include="FriendlyOperationException.cs" />
     <Compile Include="IAppVarOwner.cs" />
