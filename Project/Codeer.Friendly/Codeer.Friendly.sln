@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codeer.Friendly", "Codeer.Friendly.csproj", "{8CD64A7C-848F-4466-B5F4-8C4842A6316D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codeer.Friendly.Dynamic", "..\Codeer.Friendly.Dynamic\Codeer.Friendly.Dynamic.csproj", "{04D8EFF9-5DF4-4B92-9F37-C1E8649C26C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{76D46E6D-9E52-457C-A220-69322EFCC6B5}"
+	ProjectSection(SolutionItems) = preProject
+		..\Nuget\Friendly.nuspec = ..\Nuget\Friendly.nuspec
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,5 +76,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C00D239C-4778-4F9F-A19B-3480D5B0EE9A}
 	EndGlobalSection
 EndGlobal

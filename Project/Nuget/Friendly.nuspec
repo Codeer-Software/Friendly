@@ -2,11 +2,11 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Codeer.Friendly</id>
-    <version>2.5.2</version>
+    <version>2.6.1</version>
     <title>Friendly</title>
     <authors>Codeer</authors>
     <owners>Codeer</owners>
-    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
+    <licenseUrl>https://github.com/Codeer-Software/Friendly/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/Codeer-Software/Friendly</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/Codeer-Software/Friendly/master/FriendlyNuget128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

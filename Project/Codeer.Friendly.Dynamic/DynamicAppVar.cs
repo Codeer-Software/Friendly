@@ -129,7 +129,22 @@ namespace Codeer.Friendly.Dynamic
             }
             else
             {
-                result = _appVar.Core;
+                if (!binder.Type.IsSerializable && binder.Type.GetConstructor(new[] { typeof(AppVar) }) != null)
+                {
+                    //AppVarのみを渡すコンストラクタを持っている場合
+                    if (_appVar.IsNull)
+                    {
+                        result = null;
+                    }
+                    else
+                    {
+                        result = Activator.CreateInstance(binder.Type, new object[] { _appVar });
+                    }
+                }
+                else
+                {
+                    result = _appVar.Core;
+                }
             }
             return true;
         }
