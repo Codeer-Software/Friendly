@@ -208,11 +208,11 @@ namespace Scenario
             // get by type full name from target process's windows.
             var window = _app.WaitForIdentifyFromTypeFullName("DemoApp.Views.MainWindow");
 
-            // get by field.
+            // get by field.(Friendly's infrastructure function)
             AppVar userControl = window.Dynamic()._userControl;
 
             // get by binding.
-            WPFDataGrid dataGrid = window.LogicalTree().ByBinding("SelectedItem.Value").Single().Dynamic();
+            WPFDataGrid dataGrid = userControl.LogicalTree().ByBinding("SelectedItem.Value").Single().Dynamic();
 
             // edit.
             dataGrid.EmulateChangeCellText(1, 2, "abc");
@@ -276,7 +276,7 @@ dynamic listBox1 = _app.Type<ListBox>()();
 
 dynamic listBox2 = _app.Type(typeof(ListBox))();
 
-dynamic listBox4 = _app.Type(" System.Windows.Controls.ListBox")();
+dynamic listBox4 = _app.Type("System.Windows.Controls.ListBox")();
 
 dynamic list = _app.Type<List<int>>()(new int[]{1, 2, 3, 4, 5});
 ```

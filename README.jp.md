@@ -36,7 +36,7 @@ Win32
 http://blogs.msdn.com/b/mvpawardprogram/archive/2014/11/04/mvp-showcase-winners.aspx
 
 ## Simple sample
-これは操作対象のWpfアプリです。何も仕掛けもない普通のWpfアプリです。
+これは操作対象のWpfアプリです。何の仕掛けもない普通のWpfアプリです。
 ```xaml
 <Window x:Class="Target.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -202,20 +202,19 @@ namespace Scenario
         [TestMethod]
         public void Sample()
         {
-            // get by type full name from target process's windows.
+            // .netのタイプからウィンドウを取得
             var window = _app.WaitForIdentifyFromTypeFullName("DemoApp.Views.MainWindow");
 
-            // get by field.
+            // フィールドからユーザーコントロールを取得(Friendlyの基本機能)
             AppVar userControl = window.Dynamic()._userControl;
 
-            // get by binding.
-            WPFDataGrid dataGrid = window.LogicalTree().ByBinding("SelectedItem.Value").Single().Dynamic();
+            // バインディングからDataGridを取得
+            WPFDataGrid dataGrid = userControl.LogicalTree().ByBinding("SelectedItem.Value").Single().Dynamic();
 
             // edit.
             dataGrid.EmulateChangeCellText(1, 2, "abc");
 
-            // * This sample code was written mixed, 
-            //   But usually, the scenario and specific logic of screen element are separated like the page object pattern of Selenium.
+            // ※これはサンプルなので混ぜて書いていますが、通常はSeleniumのPageObjectのように要素の特定部分は分離して記述します。
         }
     }
 }
@@ -273,7 +272,7 @@ dynamic listBox1 = _app.Type<ListBox>()();
 
 dynamic listBox2 = _app.Type(typeof(ListBox))();
 
-dynamic listBox4 = _app.Type(" System.Windows.Controls.ListBox")();
+dynamic listBox4 = _app.Type("System.Windows.Controls.ListBox")();
 
 dynamic list = _app.Type<List<int>>()(new int[]{1, 2, 3, 4, 5});
 ```
@@ -510,8 +509,7 @@ DynamicAppTypeとDynamicAppVarはどちらも、API呼び出しの戻り値と�
 
 ### DynamicAppVar & AppVar
 DynamicAppVarとAppVarは相互に変換できます。<br>
-AppVarを引数として使用するフレンドリーライブラリがいくつかあります。<br>
-ここにはDynamicAppVarを使うことができます。<br>
+AppVarを引数として使用するFriendlyのライブラリがあり、ここにはDynamicAppVarを使うことができます。<br>
 ```cs 
 var window = app.Type<Application>();
 //pulbic WPFDataGrid(AppVar src)
