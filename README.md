@@ -1,5 +1,7 @@
 Friendly
 ========
+For Japanese: [日本語](README.jp.md)
+
 Friendly is a library for creating integration tests.<br>
 It has the ability to manipulate other processes.<br>
 It is currently designed for Windows Applications (**WinForms**, **WPF**, and **Win32**).<br>
@@ -11,8 +13,8 @@ Friendly can also operate .NetCore WinForms and WPF apps. But please write the t
 
 ## Features ...
 #### Invoke separate process's API.
-It can invoke all methods, properties, and fields.
-It's like a selenium's javascript execution.
+It's like a selenium's javascript execution.<br>
+All Methods, Properties and Fields can be called regardless of being public internal protected private.
 #### DLL injection.
 It can inject .net assembly. And can execute inserted methods.
 
@@ -139,27 +141,30 @@ namespace Sample
 ```
 ## Friendly packages.
 It's a very powerful feature. With .Net knowledge, most operations are possible.<br>
-However, since it is difficult to complete the test with just this, we have prepared more convenient libraries.<br>
+However, since it is difficult to write all tests with just this, we have prepared more convenient libraries.<br>
 ![Libraries.jpg](Img/Libraries.jpg)
 
 ### [Infrastructure](#Friendly-Infrastructure)<br>
 It call another process's api. And it injection .net dlls.<br>
+Other Friendly libraries are built on top of this feature.<br>
 
 ### [Friendly.Windows.Grasp](https://github.com/Codeer-Software/Friendly.Windows.Grasp)<br>
-The main function is to search the window. Then it provides the basics for Win32 level operation.<br>
+TIt mainly provides a function to search for windows. <br>
+Others provide basic Win32 level operations for Window that have Window handles.<br>
 
 ### [Friendly.Windows.KeyMouse](https://github.com/Codeer-Software/Friendly.Windows.KeyMouse)<br>
-Low level key mouse emulation, but adjusted for timing by friendly.<br>
+Low level key mouse emulation<br>
+Timing is adjusted using the Friendly feature.<br>
 
 ### Control Drivers<br>
 Provides operations for basic controls such as Button and TextBox.<br>
 
-basic<br>
+#### basic<br>
 [Friendly.Windows.NativeStandardControls(Win32)](https://github.com/Codeer-Software/Friendly.Windows.NativeStandardControls)<br>
 [Friendly.FormsStandardControls(WinForms)](https://github.com/ShinichiIshizuka/Ong.Friendly.FormsStandardControls)<br>
 [Friendly.WPFStandardControls(WPF)](https://github.com/Roommetro/Friendly.WPFStandardControls/)<br>
 
-3rd party cotnrols<br>
+#### 3rd party cotnrols<br>
 [Friendly.XamControls(WPF)](https://github.com/Codeer-Software/Friendly.XamControls)<br>
 [Friendly.FarPoint(WinForms)](https://github.com/Codeer-Software/Friendly.XamControls)<br>
 [Friendly.C1.Win(WinForms)](https://github.com/Codeer-Software/Friendly.C1.Win)<br>
@@ -263,8 +268,7 @@ window.DataContext.TextData = "abc";
 //field.
 string text = window._textBox.Text;
 ```
-Variables are referenced from the target process.
-You can access public and private members.
+See [here](#Friendly-interface) for more details on the interface.
 
 #### Instantiating New Objects(Any OK)
 ```cs  
@@ -278,24 +282,24 @@ dynamic list = _app.Type<List<int>>()(new int[]{1, 2, 3, 4, 5});
 ```
 
 #### Rules for Arguments
-
-You can use serializable objects and reference them in the target process.
-If you use serializable objects, they will be serialized and a copy will be sent to the target process. 
+You can use serializable objects / AppVar / DynamicAppVar.<br>
+If you use serializable objects, they will be serialized and a copy will be sent to the target process. <br>
+See [here](#Friendly-interface) for AppVar / DynamicAppVar detail。
 ```cs  
 // serializable object
 window.MyFunc(5);
 window.DataContext.TextData = "abc";
 
-// new instance in target process.
+// new instance in target process. textBox is DynamicAppVar.
 dynamic textBox = _app.Type<TextBox>()();
 
-// reference to target process
+// DynamicAppVar
 window.Content.Children.Add(textBox);
 ```
 
 #### Rules for Return Values
 ```cs  
-// referenced object exists in target process' memory. 
+// DyanmicAppVar, referenced object exists in target process' memory. 
 dynamic reference = window._textBox.Text;
 
 // when you perform a cast, it will be marshaled from the target process.
@@ -339,7 +343,7 @@ appVar["Title"]("abc");
 ```
 AppVar is part of the old style interface.<br>
 You will need to use AppVar if you use the old interface or if you can't use the .NET framework 4.0.<br>
-It will also use in the Friendly libraries interface. Please refer [here](#AppVar-and-old-interface).<br>
+It will also use in the Friendly libraries interface. Please refer [here](#Friendly-interface).<br>
 
 DynamicAppVar can be implicitly converted to a class that has a constructor that takes AppVar as one argument.<br>
 ```cs 
@@ -369,12 +373,10 @@ if (async.IsCompleted)
 async.WaitForCompletion();
 ```
 
-Return Values
+You can get the return value when the process is completed.
 ```cs  
-// Invoke getter.
-var async = new Async();
-
 // Text will obtain its value when the operation completes.
+var async = new Async();
 var text = window.MyFunc(async, 5);
 
 // When the operation finishes, the value will be available.
@@ -402,10 +404,10 @@ public void DllInjection()
     dynamic window = _app.Type<Application>().Current.MainWindow;
     dynamic textBox = window._textBox;
 
-    //The code let tasrget process load current assembly.
-    WindowsAppExpander.LoadAssembly(_app, GetType().Assembly);
+    //Causes the specified assembly to be loaded into the target process.
+    _app.LoadAssembly(GetType().Assembly);
 
-    //You can use class defined in current assembly.
+    //You can use the type contained in the loaded assembly in the target process.
     dynamic observer = _app.Type<Observer>()(textBox);
 
     //Check change text.
@@ -461,7 +463,7 @@ internal struct RECT
 }
 ```
 
-## AppVar and old interface
+## Friendly interface
 Friendly was initially designed to work with .Net 2.0.<br>
 That's why we used to make calls like this.<br>
 ```cs  
@@ -478,8 +480,7 @@ string title = mainWindow.Title;
 ```
 
 You generally shouldn't need to use a version older than .Net 4.0, so you should write your code in the new style.<br>
-However, AppVar will continue to be used because dynamic is not optimal for function arguments or return values.<br>
-This section describes the relationship between the old style and the new style, especially the interoperability of DynamicAppVar and AppVar.<br>
+However, AppVar will continue to be used for the library interface because dynamic is not optimal for function arguments or return values.<br>
 
 ### Codeer.Friendly.Dynamic
 Friendly finally executes the API in the target process using reflection.<br>
@@ -504,10 +505,10 @@ dynamic mainWindow2 = mainWindow1.Dynamic();
 
 //2. Type()
 dynamic applicationType = app.Type<Application>();
-dynamic mainWindow4 = applicationType.Current.MainWindow;
+dynamic mainWindow3 = applicationType.Current.MainWindow;
 ```
 Both DynamicAppType and DynamicAppVar are returned as dynamic(DynamicAppVar) as the return value for API calls.<br>
-So after that you can call the API with the new style as if it were a normal .Net object in the same process.<br>
+So after that you can call the API as if it were a normal .Net object in the same process.<br>
 
 ### DynamicAppVar & AppVar
 DynamicAppVar and AppVar can be converted to each other.<br>
@@ -549,7 +550,6 @@ Window windowDst = windowSrc;
 //data that cannot be serialized.
 ```
 
-This happens because the Window class is not serializable.<br>
-While operating with DynamicAppVar, it can be operated because it is in the target process,<br>
-It is an exception because serialization will occur when you try to copy it to the process of the operating side when you assign it to the actual Window class.<br>
+This happens because the Window class cannot be serialized. <br>
+Please use such objects as DynamicAppVar.<br>
 ![CantSerialize.jpg](Img/CantSerialize.jpg)
