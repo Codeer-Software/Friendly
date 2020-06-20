@@ -212,7 +212,7 @@ It's about another process's API call and DLL injection.
 #### Attention! Match the Processor Architecture. (x86 or x64)
 The target and test processes must use the same processor architectue.
 If you are using VSTest, you can set this by using the Visual Studio menus as shown below.<br>
-![Match the Processor Architecture](https://e1e82e8d-a-0cb309f2-s-sites.googlegroups.com/a/codeer.co.jp/english-home/test-automation/friendly-fundamental/CpuType.png?attachauth=ANoY7cprljI9CC8x0rTkRwfg5HBpKd0YCFHFC6qBaDgXmiO3vM_QgrB-0HANaGG8P4Oqw9io-zhGqJSCq9OOZC_4eZFD9sdVDJLBblfoNFznSoXhDYnyTVIS81ctl-rNBeWrMgciHQSCndb2YSFKaCOsVg_flygABUpVmTFrDqt7lZLhDG8vYrXAaRy2qzeJBD1nG5NMftXHcI0teetvoNZlwSWWUu6Lr6Y-fBXWvM49g-MrYsXiU2TPtG8XsCEHQQtu9ZdDPe0q&attredirects=0)
+![Match the Processor Architecture](Img/CpuType.png)
 
 #### Using Statements
 ```cs  
@@ -309,7 +309,7 @@ string.IsNullOrEmpty(reference);
 string.IsNullOrEmpty((string)reference);
 ```
 
-#### Special Casts
+#### Special Convert
 IEnumerable
 ```cs  
 foreach (var w in _app.Type<Application>().Current.Windows)
@@ -325,9 +325,19 @@ appVar["Title"]("abc");
 ```
 AppVar is part of the old style interface.<br>
 You will need to use AppVar if you use the old interface or if you can't use the .NET framework 4.0.<br>
-It will also use in the Friendly libraries interface. Please refer [here](#AppVar-and-old-interface).
+It will also use in the Friendly libraries interface. Please refer [here](#AppVar-and-old-interface).<br>
 
-Async
+DynamicAppVar can be implicitly converted to a class that has a constructor that takes AppVar as one argument.<br>
+```cs 
+var window = app.Type<Application>();
+//pulbic WPFDataGrid(AppVar src)
+WPFDataGrid dataGrid = new WPFDataGrid(window._dataGrid);
+
+//can convert!
+WPFDataGrid dataGrid =　window._dataGrid;
+```
+
+#### Async
 Friendly operations are executed synchronously.
 But you can use the Async class to execute them asynchronously.
 ```cs  
@@ -438,4 +448,94 @@ internal struct RECT
 ```
 
 ## AppVar and old interface
-TODO
+Friendly was initially designed to work with .Net 2.0.<br>
+That's why we used to make calls like this.<br>
+```cs  
+//old style
+AppVar mainWindow = app[typeof(Application), "Current"]()["MainWindow"]();
+string title = (string)mainWindow["Title"]().Core;
+```
+
+Since I started using dynamic in .Net 4.0, I can write like this.
+```cs  
+//new style
+dynamic mainWindow = app.Type<Application>().Current.MainWindow;
+string title = mainWindow.Title;
+```
+
+You generally shouldn't need to use a version older than .Net 4.0, so you should write your code in the new style.<br>
+However, AppVar will continue to be used because dynamic is not optimal for function arguments or return values.<br>
+This section describes the relationship between the old style and the new style, especially the interoperability of DynamicAppVar and AppVar.<br>
+
+### Codeer.Friendly.Dynamic
+Friendly finally executes the API in the target process using reflection.<br>
+Therefore, the operation is specified by a character string.<br>
+In the above example, it is a property, but for example, a function call is written like this.<br>
+The function name was specified as a character string in [], and the argument was passed in the following ().<br>
+```cs  
+mainWindow["MyFunc"](100);
+```
+However, this is not very intuitive.<br>
+Since .Net4.0 can use dynamic, DynamicAppType and DynamicAppVar were introduced.<br>
+As a result, it became possible to write intuitively like the new style above.<br>
+```cs  
+using Codeer.Friendly.Dynamic;
+```
+Extension method can be used by using Codeer.Friendly.Dynamic namespace.<br>
+```cs  
+AppVar mainWindow1 = app[typeof(Application), "Current"]()["MainWindow"]();
+
+//1. Dynamic() AppVar -> dynamic(DynamicAppVar)
+dynamic mainWindow2 = mainWindow1.Dynamic();
+
+//2. Type()
+dynamic applicationType = app.Type<Application>();
+dynamic mainWindow4 = applicationType.Current.MainWindow;
+```
+Both DynamicAppType and DynamicAppVar are returned as dynamic(DynamicAppVar) as the return value for API calls.<br>
+So after that you can call the API with the new style as if it were a normal .Net object in the same process.<br>
+
+### DynamicAppVar & AppVar
+DynamicAppVar and AppVar can be converted to each other.<br>
+There are some Friendly libraries that take AppVar as an argument.<br>
+If you put DynamicAppVar here, it works fine.<br>
+
+```cs 
+var window = app.Type<Application>();
+//pulbic WPFDataGrid(AppVar src)
+WPFDataGrid dataGrid = new WPFDataGrid(window._dataGrid);
+```
+![AppVar.jpg](Img/AppVar.jpg)
+
+### Converting DynamicAppVar to other types
+
+```cs 
+dynamic mainWindow = app.Type<Application>().Current.MainWindow;
+
+//DynamicAppVar
+//title is in the target process at this point
+dynamic title = mainWindow.Title;
+
+//At this point, it will be serialized into a byte array and come to the this process
+string titleText = title;
+```
+
+![Serialize.jpg](Img/Serialize.jpg)
+
+#### Frequently asked exceptions
+```cs 
+dynamic windowSrc = app.Type<Application>().Current.MainWindow;
+
+//Oops! Exception occurred!
+Window windowDst = windowSrc;
+
+//[Codeer.Friendly.FriendlyOperationException]
+//Communication with the application failed.
+//The target applcation may be unreachable or you may be trying to send
+//data that cannot be serialized.
+```
+
+This happens because the Window class is not serializable.<br>
+While operating with DynamicAppVar, it can be operated because it is in the target process,<br>
+It is an exception because serialization will occur when you try to copy it to the process of the operating side when you assign it to the actual Window class.<br>
+![CantSerialize.jpg](Img/CantSerialize.jpg)
