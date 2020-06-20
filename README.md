@@ -2,7 +2,9 @@ Friendly
 ========
 Friendly is a library for creating integration tests.<br>
 It has the ability to manipulate other processes.<br>
-It is currently designed for Windows Applications (**WinForms**, **WPF**, and **Win32**).
+It is currently designed for Windows Applications (**WinForms**, **WPF**, and **Win32**).<br>
+The name Friendly is derived from the C++ friend class. <br>
+Being friends gives you access to what you normally wouldn't be able to do.<br>
 
 ## Friendly support .NetCore.
 Friendly can also operate .NetCore WinForms and WPF apps. But please write the test code in .Net Framework. Sorry.
@@ -15,10 +17,19 @@ It's like a selenium's javascript execution.
 It can inject .net assembly. And can execute inserted methods.
 
 ## Getting Started
-Install Friendly.Windows from NuGet
+Install from NuGet<br>
+WPF
 
-    PM> Install-Package Codeer.Friendly.Windows
-https://www.nuget.org/packages/Codeer.Friendly.Windows/
+    PM> Install-Package RM.Friendly.WPFStandardControls
+
+WinForms
+
+    PM> Install-Package Ong.Friendly.FormsStandardControls
+
+Win32    
+
+    PM> Install-Package Codeer.Friendly.Windows.NativeStandardControls
+
 
 ## We win 2nd place at Microsoft MVP Showcase. Thank you!
 http://blogs.msdn.com/b/mvpawardprogram/archive/2014/11/04/mvp-showcase-winners.aspx
@@ -137,8 +148,11 @@ It call another process's api. And it injection .net dlls.<br>
 ### [Friendly.Windows.Grasp](https://github.com/Codeer-Software/Friendly.Windows.Grasp)<br>
 The main function is to search the window. Then it provides the basics for Win32 level operation.<br>
 
+### [Friendly.Windows.KeyMouse](https://github.com/Codeer-Software/Friendly.Windows.KeyMouse)<br>
+Low level key mouse emulation, but adjusted for timing by friendly.<br>
+
 ### Control Drivers<br>
-Provides operations for basic controls such as buttons and text boxes.<br>
+Provides operations for basic controls such as Button and TextBox.<br>
 
 basic<br>
 [Friendly.Windows.NativeStandardControls(Win32)](https://github.com/Codeer-Software/Friendly.Windows.NativeStandardControls)<br>
