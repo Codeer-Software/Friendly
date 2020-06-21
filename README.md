@@ -12,10 +12,10 @@ Being friends gives you access to what you normally wouldn't be able to do.<br>
 Friendly can also operate .NetCore WinForms and WPF apps. But please write the test code in .Net Framework. Sorry.
 
 ## Features ...
-#### Invoke separate process's API.
+### Invoke separate process's API.
 It's like a selenium's javascript execution.<br>
 All Methods, Properties and Fields can be called regardless of being public internal protected private.
-#### DLL injection.
+### DLL injection.
 It can inject .net assembly. And can execute inserted methods.
 
 ## Getting Started

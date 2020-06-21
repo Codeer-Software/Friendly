@@ -10,10 +10,10 @@ Friendlyという名前は、C++ の friend クラスに由来します。 <br>
 Friendlyは、.NetCore WinFormsおよびWPFアプリも操作できます。ただし、テストコードは.Net Frameworkで記述する必要があります。
 
 ## Features ...
-#### 別のプロセスのAPIを呼び出します。
+### 別のプロセスのAPIを呼び出すことができます。
 これは、SeleniumのJavaScript実行のようなものです。<br>
 public internal protected private に関わらず、すべての Method、Property、Field を呼び出すことができます。
-#### DLL injection.
+### DLL injection.
 .Netのアセンブリを Dll Injection することができます。
 インジェクションした dll に含まれるAPIは同様に呼び出し可能です。
 
@@ -31,6 +31,7 @@ Win32
 
     PM> Install-Package Codeer.Friendly.Windows.NativeStandardControls
 
+https://www.nuget.org/packages/Codeer.Friendly/
 
 ## Microsoft MVP Showcaseで2位を獲得しました。ありがとうございました！
 http://blogs.msdn.com/b/mvpawardprogram/archive/2014/11/04/mvp-showcase-winners.aspx
