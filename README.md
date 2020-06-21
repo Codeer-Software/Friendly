@@ -282,9 +282,9 @@ dynamic list = _app.Type<List<int>>()(new int[]{1, 2, 3, 4, 5});
 ```
 
 #### Rules for Arguments
-You can use serializable objects / AppVar / DynamicAppVar.<br>
+You can use serializable objects / AppVar / DynamicAppVar / IAppVarOwner.<br>
 If you use serializable objects, they will be serialized and a copy will be sent to the target process. <br>
-See [here](#Friendly-interface) for AppVar / DynamicAppVar detail。
+See [here](#Friendly-interface) for AppVar / DynamicAppVar / IAppVarOwner detail。
 ```cs  
 // serializable object
 window.MyFunc(5);
@@ -549,7 +549,42 @@ Window windowDst = windowSrc;
 //The target applcation may be unreachable or you may be trying to send
 //data that cannot be serialized.
 ```
-
 This happens because the Window class cannot be serialized. <br>
 Please use such objects as DynamicAppVar.<br>
 ![CantSerialize.jpg](Img/CantSerialize.jpg)
+
+ ### IAppVarOwner
+IAppVarOwner is an interface to specify that the class has AppVar inside.<br>
+Classes that implement this interface have the following advantages.<br>
++ Can be passed as an argument as in AppVar
++ Dynamic() extension method can be used
+
+```cs 
+[TestMethod]
+public void Test()
+{
+    //WindowControl implementes IAppVarOwner.
+    WindowControl window = _app.WaitForIdentifyFromTypeFullName("DemoApp.Views.MainWindow");
+
+    //You can use the Dynamic() extension.
+    //WPF TextBox also implements IAppVarOwner.
+    WPFTextBox textBox = new WPFDataGrid(window.Dynamic()._textBox);
+
+    //It can be passed to the Friendly interface just like AppVar.
+    _app.LoadAssembly(GetType().Assembly);
+    dynamic observer = _app.Type<Observer>()(textBox);
+
+    //Check change text.
+    textBox.EmulateChangeText("abc");
+    Assert.IsTrue((bool)observer.TextChanged);
+}
+
+class Observer
+{
+    internal bool TextChanged { get; set; }
+    internal Observer(TextBox textBox)
+    {
+        textBox.TextChanged += delegate { TextChanged = true; };
+    }
+}
+```

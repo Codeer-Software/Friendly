@@ -105,7 +105,7 @@ namespace Sample
         [TestInitialize]
         public void TestInitialize()
         {
-            //attach to target process!
+            //アタッチ
             var path = Path.GetFullPath("../../../Target/bin/Debug/Target.exe");
             _app = new WindowsAppFriend(Process.Start(path));
         }
@@ -121,17 +121,17 @@ namespace Sample
         [TestMethod]
         public void Manipulate()
         {           
-            //static method
+            // staticなメソッドを呼び出し
             dynamic window = _app.Type<Application>().Current.MainWindow;
 
-            //instance method
+            // instanceのメソッドを呼び出し
             string value = window.MyFunc(5);
             Assert.AreEqual("5", value);
 
-            //instance property
+            // instanceのプロパティに値を設定
             window.DataContext.TextData = "abc";
 
-            //instance field.
+            // instanceのフィールドを取得
             string text = window._textBox.Text;
             Assert.AreEqual("abc", text);
         }
@@ -279,9 +279,9 @@ dynamic list = _app.Type<List<int>>()(new int[]{1, 2, 3, 4, 5});
 ```
 
 #### 引数のルール
-シリアライズ可能なオブジェクト/AppVar/DynamicAppVarを指定することができます。<br>
+シリアライズ可能なオブジェクト/AppVar/DynamicAppVar/IAppVarOwnerを指定することができます。<br>
 シリアライズ可能なオブジェクトを使用すると、それらはシリアライズされ、コピーがターゲットプロセスに送信されます。<br>
-AppVar/DynamicAppVarの詳細に関しては[こちら](#Friendly-interface)を参照してください。<br>
+AppVar/DynamicAppVar/IAppVarOwnerの詳細に関しては[こちら](#Friendly-interface)を参照してください。<br>
 ```cs  
 //  シリアライズ可能なオブジェクト
 window.MyFunc(5);
@@ -549,3 +549,40 @@ Window windowDst = windowSrc;
 これはWindowクラスがシリアライズできないために発生します。<br>
 このようなオブジェクトはDynamicAppVarのままで使ってください。<br>
 ![CantSerialize.jpg](Img/CantSerialize.jpg)
+ 
+ ### IAppVarOwner
+ IAppVarOwnerは内部にAppVarを持つクラスであることを明示するためのインターフェイスです。
+ このインターフェイスを実装しているクラスは以下のメリットがあります。
+ + AppVar同様に引数に渡すことができる
+ + Dynamic拡張メソッドが使えるようになる
+
+```cs 
+[TestMethod]
+public void Test()
+{
+
+    //WindowControlはIAppVarOwnerを実装しています。
+    WindowControl window = _app.WaitForIdentifyFromTypeFullName("DemoApp.Views.MainWindow");
+
+    //Dynamic拡張が使えます。
+    //WPFTextBoxもIAppVarOwnerを実装しています。
+    WPFTextBox textBox = new WPFDataGrid(window.Dynamic()._textBox);
+
+    //FriendlyのインターフェイスにAppVar同様に渡すことができます。
+    _app.LoadAssembly(GetType().Assembly);
+    dynamic observer = _app.Type<Observer>()(textBox);
+
+    //Check change text.
+    textBox.EmulateChangeText("abc");
+    Assert.IsTrue((bool)observer.TextChanged);
+}
+
+class Observer
+{
+    internal bool TextChanged { get; set; }
+    internal Observer(TextBox textBox)
+    {
+        textBox.TextChanged += delegate { TextChanged = true; };
+    }
+}
+```
