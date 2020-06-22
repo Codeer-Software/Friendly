@@ -157,7 +157,7 @@ Low level key mouse emulation<br>
 Timing is adjusted using the Friendly feature.<br>
 
 ### Control Drivers<br>
-Provides operations for basic controls such as Button and TextBox.<br>
+Provides operations for basic controls such as Button, ListView, TreeView.<br>
 
 #### basic<br>
 [Friendly.Windows.NativeStandardControls(Win32)](https://github.com/Codeer-Software/Friendly.Windows.NativeStandardControls)<br>

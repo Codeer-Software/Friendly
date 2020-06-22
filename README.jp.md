@@ -155,7 +155,7 @@ FriendlyのAPI呼び出し機能は非常に強力です。.Netの知識があ�
 Friendlyの機能を使ってタイミングが調整されています。<br>
 
 ### Control Drivers<br>
-ButtonやTextBoxなどの基本的なコントロールの操作を提供します。<br>
+Button, ListView, TreeView などの基本的なコントロールの操作を提供します。<br>
 
 #### basic<br>
 [Friendly.Windows.NativeStandardControls(Win32)](https://github.com/Codeer-Software/Friendly.Windows.NativeStandardControls)<br>
