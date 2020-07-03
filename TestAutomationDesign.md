@@ -233,4 +233,4 @@ public static class EntryControlDriverExtensions
 
 最終的にはこのようなDll構成がおすすめです。<br>
 
-![dlls.png](Img/dlls.png)
+![Dlls.png](Img/Dlls.png)
