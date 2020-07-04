@@ -8,6 +8,9 @@ It is currently designed for Windows Applications (**WinForms**, **WPF**, and **
 The name Friendly is derived from the C++ friend class. <br>
 Being friends gives you access to what you normally wouldn't be able to do.<br>
 
+### [Automatic test design for Windows applications](TestAutomationDesign.jp.md)
+Similar to the Selenium Page Object pattern, there is a recommended design policy for automated testing with Friendly.[See here.](TestAutomationDesign.md)
+
 ## Friendly support .NetCore.
 Friendly can also operate .NetCore WinForms and WPF apps. But please write the test code in .Net Framework. Sorry.
 

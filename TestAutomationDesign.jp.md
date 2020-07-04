@@ -13,7 +13,7 @@ Windowsアプリケーションの自動テスト設計
 基本方針はDriverとScenarioに分けて実装するというものです。<br>
 これはWebアプリをSeleniumでテストするときのページオブジェクトパターンに似ています。<br>
 Driver他プロセスを操作するモジュールでScenarioはテストを記述するモジュールです。<br>
-![DriverAndScenariojp.jpg](Img/DriverAndScenariojp.jpg)
+![DriverAndScenario.jp.jpg](Img/DriverAndScenario.jp.jpg)
 
 # Scenario
 Scenarioはメイン業務がテストの人でも記述できるようにすべきです。<br>
@@ -50,7 +50,7 @@ public void Sample()
 このコードの特徴は複雑な制御文などはなく上から下に操作とその後の判定を書いているだけです。<br>
 トレーニングは必要ですが専門職のプログラマーでなくても書くことはできます。<br>
 自動テスト設計ではこのように要員の確保のしやすさも考慮に入れる必要があります。<br>
-また画面要素の特定などはここには出てきません。<br>
+画面要素の特定などはここには出てきません。<br>
 外部仕様だけで記述しています。<br>
 そのため内部の設計が変わったくらいではシナリオのメンテナンスは発生しません。<br>
 もちろん外部仕様が変わってしまった場合は書き直す必要があります。<br>
@@ -62,7 +62,7 @@ Driverはさらに大きくは二種類に分かれます。<br>
 ControlDriverとWindowDriverです。<br>
 
 ## ControlDriver
-Button, ListView, TreeView などの基本的なコントロール単位での操作を提供します。<br>
+ControlDriverは Button, ListView, TreeView などの基本的なコントロール単位での操作を提供します。<br>
 ControlDriverは汎用的なもので使いまわすことができます。<br>
 一般的なコントロールに関してはFriendlyの関連ライブラリで既に実装したものがありますのでそれをご利用ください。<br>
 プロジェクト固有のコントロールや3rdパーティ製のコントロールに関してはそれぞれで実装する必要があります。<br>
@@ -82,7 +82,6 @@ public class NumericUpDownControl : Control
 
     //以下省略
 ``` 
-
 
 そのコントロールドライバは以下のようになります。<br>
 Friendlyの基本機能を使えば問題なく作成できます。<br>
@@ -115,7 +114,7 @@ namespace Driver.CustomDrivers
 <br>
 WindowやForm自体は通常ButtonやTextBoxなどのControlをレイアウトして作成されます。<br>
 そのためWindowDriverはレイアウトされたControlを取得し、ControlDriverでラップして提供することが目的となります。<br>
-WindowDriverは対象の性質上使いまわすことはほとんどなく、対象のWindowに対し一つの一点ものになります。<br>
+WindowDriverは対象の性質上使いまわすことはほとんどなく、対象のWindowに対し一点ものになります。<br>
 ここがControlDriverと異なるところです。<br>
 <br>
 WindowDriverを実装する際は各Windowの情報が必要になります。<br>
@@ -235,7 +234,7 @@ public static class EntryControlDriverExtensions
 
 さらにそれぞれが操作時に対象プロセス内部で実行させる処理を実装するなら、その処理は別のdllに分ける方がおすすめです。<br>
 これは実装効率のためです。対象プロセスにロードさせるとそのプロセスが稼働中の間はそのdllを再度コンパイルすることができません。<br>
-比率的には対象プロセスにロードさせる処理は少ないので、分けておくとテストプロセスで実行するコードを一度操作したプロセスが稼働している間にコンパイルすることができます。<br>
+対象プロセスにロードさせる処理は比較的少ないので、分けておくとプロセスが稼働している間にコンパイルすることができます。<br>
 
 最終的にはこのようなDll構成がおすすめです。<br>
 
