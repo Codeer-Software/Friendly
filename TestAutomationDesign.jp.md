@@ -109,7 +109,7 @@ namespace Driver.CustomDrivers
 }
 ```
 ## WindowDriver
-これは各Window/Form/UserControlのドライバです。<br>
+WindowDriverは各Window/Form/UserControlのドライバです。<br>
 （まとめてWindowDriverと呼ぶことにします。）<br>
 <br>
 WindowやForm自体は通常ButtonやTextBoxなどのControlをレイアウトして作成されます。<br>
@@ -119,14 +119,13 @@ WindowDriverは対象の性質上使いまわすことはほとんどなく、�
 <br>
 WindowDriverを実装する際は各Windowの情報が必要になります。<br>
 具体的にはフィールド名やWPFならバインディング名などControlを特定するための情報です。<br>
+ここで必要なものは.Netの知識よりそのアプリの実装/設計に関する情報です。<br>
 WinFormsならフィールドで簡単に特定できることが多いのですが、WPFではx:nameがついていないことも多く、Win32の場合はそもそも.netではないのでフィールドは使えません。<br>
 そのような場合のためにライブラリでいくつか特定するためのメソッドを用意しているのでそれを使ってください。<br>
 これでもダメな場合でもFriendlyの基本を理解すれば自分で新たな特定方法を作ることも可能です。<br>
 + [WPF](https://github.com/Roommetro/Friendly.WPFStandardControls/)
 + [Win32](https://github.com/Codeer-Software/Friendly.Windows.Grasp)
-
-.Netの知識というよりそのアプリの実装/設計に関する情報といえます。<br>
-トップレベルのWindowに対するWindowDriverにはAttachするための拡張メソッドを作ります。<br>
+トップレベルのWindowではWindowDriverにはAttachするための拡張メソッドを作ります。<br>
 
 ```cs 
 using Codeer.Friendly.Dynamic;
