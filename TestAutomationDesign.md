@@ -99,7 +99,7 @@ namespace Driver.CustomDrivers
 
 		public int Value => this.Dynamic().Value;
 
-        public void EmulateChangeValue(int value)
+		public void EmulateChangeValue(int value)
 		{
 			var textBox = this.Dynamic().ValueTextBox;
 			textBox.Focus();
