@@ -91,21 +91,21 @@ using Codeer.Friendly.Dynamic;
 
 namespace Driver.CustomDrivers
 {
-	public class WPFNumericUpDownDriver : IAppVarOwner
-	{
-		public AppVar AppVar { get; }
+    public class WPFNumericUpDownDriver : IAppVarOwner
+    {
+        public AppVar AppVar { get; }
 
-		public WPFNumericUpDownDriver(AppVar src) => AppVar = src;
+        public WPFNumericUpDownDriver(AppVar src) => AppVar = src;
 
-		public int Value => this.Dynamic().Value;
+        public int Value => this.Dynamic().Value;
 
-		public void EmulateChangeValue(int value)
-		{
-			var textBox = this.Dynamic().ValueTextBox;
-			textBox.Focus();
-			textBox.Text = value.ToString();
-		}
-	}
+        public void EmulateChangeValue(int value)
+        {
+            var textBox = this.Dynamic().ValueTextBox;
+            textBox.Focus();
+            textBox.Text = value.ToString();
+        }
+    }
 }
 ```
 ## WindowDriver
