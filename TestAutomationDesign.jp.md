@@ -125,7 +125,8 @@ WinFormsならフィールドで簡単に特定できることが多いのです
 これでもダメな場合でもFriendlyの基本を理解すれば自分で新たな特定方法を作ることも可能です。<br>
 + [WPF](https://github.com/Roommetro/Friendly.WPFStandardControls/)
 + [Win32](https://github.com/Codeer-Software/Friendly.Windows.Grasp)
-トップレベルのWindowではWindowDriverにはAttachするための拡張メソッドを作ります。<br>
+<br>
+それから、トップレベルのWindowではWindowDriverにはAttachするための拡張メソッドを作ります。<br>
 
 ```cs 
 using Codeer.Friendly.Dynamic;
