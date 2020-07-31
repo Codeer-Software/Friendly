@@ -110,7 +110,7 @@ namespace Driver.CustomDrivers
 ```
 ## WindowDriver
 WindowDriverは各Window/Form/UserControlのドライバです。<br>
-（まとめてWindowDriverと呼ぶことにします。）<br>
+（細かく言えばUserControlDriverとなりますが、ここではまとめてWindowDriverと呼ぶことにします。）<br>
 <br>
 WindowやForm自体は通常ButtonやTextBoxなどのControlをレイアウトして作成されます。<br>
 そのためWindowDriverはレイアウトされたControlを取得し、ControlDriverでラップして提供することが目的となります。<br>
@@ -176,7 +176,7 @@ public void Sample()
     //以下操作
     mainWindow.Name.EmulateChangeText("ishikawa");
 ```
-トップレベルウィンドウ以外のUserControlなどへのWindowDriverの場合は二種類取得する方法が考えられます。<br>
+トップレベルウィンドウ以外のUserControlなどへの場合は二種類取得する方法が考えられます。<br>
 ```cs
 using Codeer.Friendly;
 using Codeer.Friendly.Dynamic;
@@ -228,10 +228,16 @@ public static class EntryControlDriverExtensions
 }
 ```
 例えばMDIだったりWPFのページのように常に存在するわけではなかったり同一のウィンドウ/UserControlが複数存在する場合に向いています。<br>
-
 また特殊な例でドッキングウィンドウのような場合、どの親ウィンドウが持っているかわからないようなケースでは<br>
 トップレベルウィンドウでなくともWindowsAppFriendにアタッチする拡張メソッドを作ることもあります。<br>
-
+```cs
+public static class OutpuWindowDriverExtensions
+{
+    [UserControlDriverIdentify]
+    public static OutpuWindowDriver AttachOutpuWindow(this WindowsAppFriend app)
+        => app.GetTopLevelWindows().SelectMany(e => e.GetFromTypeFullName("DemoApp.OutputWindow")).FirstOrDefault()?.Dynamic();
+}
+```
 さらにそれぞれが操作時に対象プロセス内部で実行させる処理を実装するなら、その処理は別のdllに分ける方がおすすめです。<br>
 これは実装効率のためです。対象プロセスにロードさせるとそのプロセスが稼働中の間はそのdllを再度コンパイルすることができません。<br>
 対象プロセスにロードさせる処理は比較的少ないので、分けておくとプロセスが稼働している間にコンパイルすることができます。<br>
