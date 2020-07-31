@@ -110,7 +110,7 @@ namespace Driver.CustomDrivers
 ```
 ## WindowDriver
 This is the Window/Form/UserControl driver. <br>
-(We will collectively call it Window Driver.)<br>
+(In detail, it is UserControlDriver, but here I will collectively call it WindowDriver.)<br>
 <br>
 Window and Form itself are usually created by laying out Controls such as Button and TextBox. <br>
 Therefore, the purpose of WindowDriver is to get the laid out Control and wrap it with ControlDriver to provide it. <br>
@@ -176,7 +176,7 @@ public void Sample()
     //manipulation
     mainWindow.Name.EmulateChangeText("ishikawa");
 ```
-In the case of WindowDriver for UserControl other than top-level window, there are two ways to get it.<br>
+In the case of UserControl, there are two ways to get it.<br>
 ```cs
 using Codeer.Friendly;
 using Codeer.Friendly.Dynamic;
