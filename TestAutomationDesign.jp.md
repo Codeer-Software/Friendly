@@ -66,7 +66,7 @@ ControlDriver,WindowDriver,UserControlDriverなら3種類じゃないのかと�
 WindowDriver/UserControlDriverは同一の性質を持ちます。<br>
 それはWindowとUserControlが同じ性質を持つのと同じです。<br>
 WindowとUserControlはともに子となる要素(Control/UserControl)をデザイナやXamlで並べていきます<br>
-WindowDriver/UserControlDriverは子となる要素を特定することがその責務です。<br>
+WindowDriver/UserControlDriverは子となる要素を特定/取得することがその責務です。<br>
 対してContorlはそれ自体が独立した機能を持っています。<br>
 多くの場合は汎用性が高く様々なWindow/UserControlで使われます。<br>
 ControlDriverは対象のコントロールの機能を操作することが責務です。<br>
