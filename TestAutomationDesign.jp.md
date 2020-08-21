@@ -16,6 +16,8 @@ Driver他プロセスを操作するモジュールでScenarioはテストを記
 ![DriverAndScenario.jp.jpg](Img/DriverAndScenario.jp.jpg)
 
 # Scenario
+Scenarioはテストケースです。アプリケーションの操作とその後の状態の検証を行います。<br>
+これは通常はテストチームが手動で行っていたもので、それをコードで表現したものです。<br>
 Scenarioはメイン業務がテストの人でも記述できるようにすべきです。<br>
 制御文は可能な限り入れず理解しやすいAPIでの操作とAssertで記述できるようにします。<br>
 DriverとScenarioでは圧倒的にScenarioのボリュームが多くなります。<br>
@@ -59,7 +61,18 @@ public void Sample()
 Driverは逆にあまりテストのことは考えずに対象プロセスを制御することに集中します。<br>
 そして技術的なことやアプリの内部仕様に関してはこのレイヤに隠蔽します。<br>
 Driverはさらに大きくは二種類に分かれます。<br>
-ControlDriverとWindowDriverです。<br>
+ControlDriverとWindowDriver/UserControlDriverです。<br>
+ControlDriver,WindowDriver,UserControlDriverなら3種類じゃないのかと感じられると思いますが、<br>
+WindowDriver/UserControlDriverは同一の性質を持ちます。<br>
+それはWindowとUserControlが同じ性質を持つのと同じです。<br>
+WindowとUserControlはともに子となる要素(Control/UserControl)をデザイナやXamlで並べていきます<br>
+WindowDriver/UserControlDriverは子となる要素を特定することがその責務です。<br>
+対してContorlはそれ自体が独立した機能を持っています。<br>
+多くの場合は汎用性が高く様々なWindow/UserControlで使われます。<br>
+ControlDriverは対象のコントロールの機能を操作することが責務です。<br>
+そのしてWindowDriver/UserControlDriverのプロパティとして特定した要素を操作することに使われます<br>
+
+![Drivers.png](Img/Drivers.png)
 
 ## ControlDriver
 ControlDriverは Button, ListView, TreeView などの基本的なコントロール単位での操作を提供します。<br>
@@ -70,7 +83,8 @@ ControlDriverの実装は難易度が高いです。<br>
 それぞれのControlに関しての知識が求められます。<br>
 ただ、それがあればFriendlyの基本機能を使えばほとんどのものが実装可能です。<br>
 <br>
-例えばこのようなカスタムコントロールがあった場合(WPFにはNumericUpDownはありません)<br>
+例えばこのようなカスタムコントロールがあった場合(WPFにはNumericUpDownはありません)
+
 ![NumericUpDwon.png](Img/NumericUpDwon.png)
 
 ```cs 
@@ -108,14 +122,12 @@ namespace Driver.CustomDrivers
     }
 }
 ```
-## WindowDriver
-WindowDriverは各Window/Form/UserControlのドライバです。<br>
-（細かく言えばUserControlDriverとなりますが、ここではまとめてWindowDriverと呼ぶことにします。）<br>
+## WindowDriver/UserControlDriver
+WindowDriverは各Window/Form/UserControl/Pageのドライバです。<br>
 <br>
 WindowやForm自体は通常ButtonやTextBoxなどのControlをレイアウトして作成されます。<br>
-そのためWindowDriverはレイアウトされたControlを取得し、ControlDriverでラップして提供することが目的となります。<br>
-WindowDriverは対象の性質上使いまわすことはほとんどなく、対象のWindowに対し一点ものになります。<br>
-ここがControlDriverと異なるところです。<br>
+そのためWindowDriverはレイアウトされたControlを特定/取得し、ControlDriverでラップして提供することが目的となります。<br>
+WindowDriver/UserControlDriverは対象の性質上使いまわすことはほとんどなく、対象のWindowに対し一点ものになります。<br>
 <br>
 WindowDriverを実装する際は各Windowの情報が必要になります。<br>
 具体的にはフィールド名やWPFならバインディング名などControlを特定するための情報です。<br>
@@ -176,7 +188,7 @@ public void Sample()
     //以下操作
     mainWindow.Name.EmulateChangeText("ishikawa");
 ```
-トップレベルウィンドウ以外のUserControlなどへの場合は二種類取得する方法が考えられます。<br>
+UserControlは二種類取得する方法が考えられます。<br>
 ```cs
 using Codeer.Friendly;
 using Codeer.Friendly.Dynamic;
