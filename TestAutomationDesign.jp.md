@@ -1,36 +1,36 @@
-Windowsアプリケーションの自動テスト設計
+Driver/Scenarioパターン
 ========
 
-ここでは我々がWindowsアプリケーションの自動システムテストを構築するときに使っている設計方針を紹介します。<br>
-自動テストを作成するということはテストを自動で実行するソフトウェアを開発するということです。<br>
-そして対象のアプリと同じだけのライフサイクルがあり多くの場合は長期にわたってメンテナンスしていきます。<br>
-以下のポイントに気を付けて費用対効果を高める必要があります。<br>
+ここでは我々がWindowsアプリケーションの自動システムテストを構築するときに使っている設計方針を紹介します。
+自動テストを作成するということはテストを自動で実行するソフトウェアを開発するということです。
+そして対象のアプリと同じだけのライフサイクルがあり多くの場合は長期にわたってメンテナンスしていきます。
+以下のポイントに気を付けて費用対効果を高める必要があります。
 
 + 作成効率
 + メンバーのアサイン
 + メンテナンス性
 
-基本方針はDriverとScenarioに分けて実装するというものです。<br>
-これはWebアプリをSeleniumでテストするときのページオブジェクトパターンに似ています。<br>
-Driver他プロセスを操作するモジュールでScenarioはテストを記述するモジュールです。<br>
+基本方針はDriverとScenarioに分けて実装するというものです。
+これはWebアプリをSeleniumでテストするときのページオブジェクトパターンに似ています。
+Driver他プロセスを操作するモジュールでScenarioはテストを記述するモジュールです。
 ![DriverAndScenario.jp.jpg](Img/DriverAndScenario.jp.jpg)
 
 # Scenario
-Scenarioはテストケースです。アプリケーションの操作とその後の状態の検証を行います。<br>
-これは通常はテストチームが手動で行っていたもので、それをコードで表現したものです。<br>
-Scenarioはメイン業務がテストの人でも記述できるようにすべきです。<br>
-制御文は可能な限り入れず理解しやすいAPIでの操作とAssertで記述できるようにします。<br>
-DriverとScenarioでは圧倒的にScenarioのボリュームが多くなります。<br>
-またScenarioを記述するときは技術的なことよりもアプリ/テストの仕様に集中できるようにする必要があります。<br>
+Scenarioはテストケースです。アプリケーションの操作とその後の状態の検証を行います。
+これは通常はテストチームが手動で行っていたもので、それをコードで表現したものです。
+Scenarioはメイン業務がテストの人でも記述できるようにすべきです。
+制御文は可能な限り入れず理解しやすいAPIでの操作とAssertで記述できるようにします。
+DriverとScenarioでは圧倒的にScenarioのボリュームが多くなります。
+またScenarioを記述するときは技術的なことよりもアプリ/テストの仕様に集中できるようにする必要があります。
 サンプルコードです。
 ```cs 
 [TestMethod]
 public void Sample()
 {
     //操作
+    //ボタン押下、テキスト入力などのシンプルなコントロール操作のみ
     var mainWindow = _app.AttachMainWindow();
-    var allDisplayControl = mainWindow.AttachAllDisplayControl();
-    allDisplayControl.Add.EmulateClick();
+    mainWindow.Add.EmulateClick();
     var entryControl = mainWindow.AttachEntryControl();
     entryControl.Name.EmulateChangeText("ishikawa");
     entryControl.Birthday.EmulateChangeDate(new DateTime(1977, 1, 7));
@@ -41,48 +41,48 @@ public void Sample()
     entryControl.Entry.EmulateClick();
 
     //Assert
-    allDisplayControl.DataGrid.GetCellText(0, 0).Is("ishikawa");
-    allDisplayControl.DataGrid.GetCellText(0, 1).Is("ishikawa@xxx.com");
-    allDisplayControl.DataGrid.GetCellText(0, 2).Is("C#");
-    allDisplayControl.DataGrid.GetCellText(0, 3).Is("Man");
-    allDisplayControl.DataGrid.GetCellText(0, 4).Is("42");
-    allDisplayControl.DataGrid.GetCellText(0, 5).Is("1977/01/07");
+    mainWindow.DataGrid.GetCellText(0, 0).Is("ishikawa");
+    mainWindow.DataGrid.GetCellText(0, 1).Is("ishikawa@xxx.com");
+    mainWindow.DataGrid.GetCellText(0, 2).Is("C#");
+    mainWindow.DataGrid.GetCellText(0, 3).Is("Man");
+    mainWindow.DataGrid.GetCellText(0, 4).Is("42");
+    mainWindow.DataGrid.GetCellText(0, 5).Is("1977/01/07");
 }
 ```
-このコードの特徴は複雑な制御文などはなく上から下に操作とその後の判定を書いているだけです。<br>
-トレーニングは必要ですが専門職のプログラマーでなくても書くことはできます。<br>
-自動テスト設計ではこのように要員の確保のしやすさも考慮に入れる必要があります。<br>
-画面要素の特定などはここには出てきません。<br>
-外部仕様だけで記述しています。<br>
-そのため内部の設計が変わったくらいではシナリオのメンテナンスは発生しません。<br>
-もちろん外部仕様が変わってしまった場合は書き直す必要があります。<br>
+このコードの特徴は複雑な制御文などはなく上から下に操作とその後の判定を書いているだけです。
+トレーニングは必要ですが専門職のプログラマーでなくても書くことはできます。
+自動テスト設計ではこのように要員の確保のしやすさも考慮に入れる必要があります。
+画面要素の特定などはここには出てきません。
+外部仕様だけで記述しています。
+そのため内部の設計が変わったくらいではシナリオのメンテナンスは発生しません。
+もちろん外部仕様が変わってしまった場合は書き直す必要があります。
 
 # Driver
-Driverは逆にあまりテストのことは考えずに対象プロセスを制御することに集中します。<br>
-そして技術的なことやアプリの内部仕様に関してはこのレイヤに隠蔽します。<br>
-Driverはさらに大きくは二種類に分かれます。<br>
-ControlDriverとWindowDriver/UserControlDriverです。<br>
-ControlDriver,WindowDriver,UserControlDriverなら3種類じゃないのかと感じられると思いますが、<br>
-WindowDriver/UserControlDriverは同一の性質を持ちます。<br>
-それはWindowとUserControlが同じ性質を持つのと同じです。<br>
-WindowとUserControlはともに子となる要素(Control/UserControl)をデザイナやXamlで並べていきます<br>
-WindowDriver/UserControlDriverは子となる要素を特定/取得することがその責務です。<br>
-対してContorlはそれ自体が独立した機能を持っています。<br>
-多くの場合は汎用性が高く様々なWindow/UserControlで使われます。<br>
-ControlDriverは対象のコントロールの機能を操作することが責務です。<br>
-そのしてWindowDriver/UserControlDriverのプロパティとして特定した要素を操作することに使われます<br>
+Driverは逆にあまりテストのことは考えずに対象プロセスを制御することに集中します。
+そして技術的なことやアプリの内部仕様に関してはこのレイヤに隠蔽します。
+Driverはさらに大きくは二種類に分かれます。
+ControlDriverとWindowDriver/UserControlDriverです。
+ControlDriver,WindowDriver,UserControlDriverなら3種類じゃないのかと感じられると思いますが、
+WindowDriver/UserControlDriverは同一の性質を持ちます。
+それはWindowとUserControlが同じ性質を持つのと同じです。
+WindowとUserControlはともに子となる要素(Control/UserControl)をデザイナやXamlで並べていきます
+WindowDriver/UserControlDriverは子となる要素を特定/取得することがその責務です。
+対してContorlはそれ自体が独立した機能を持っています。
+多くの場合は汎用性が高く様々なWindow/UserControlで使われます。
+ControlDriverは対象のコントロールの機能を操作することが責務です。
+そのしてWindowDriver/UserControlDriverのプロパティとして特定した要素を操作することに使われます
 
 ![Drivers.png](Img/Drivers.png)
 
 ## ControlDriver
-ControlDriverは Button, ListView, TreeView などの基本的なコントロール単位での操作を提供します。<br>
-ControlDriverは汎用的なもので使いまわすことができます。<br>
-一般的なコントロールに関してはFriendlyの関連ライブラリで既に実装したものがありますのでそれをご利用ください。<br>
-プロジェクト固有のコントロールや3rdパーティ製のコントロールに関してはそれぞれで実装する必要があります。<br>
-ControlDriverの実装は難易度が高いです。<br>
-それぞれのControlに関しての知識が求められます。<br>
-ただ、それがあればFriendlyの基本機能を使えばほとんどのものが実装可能です。<br>
-<br>
+ControlDriverは Button, ListView, TreeView などの基本的なコントロール単位での操作を提供します。
+ControlDriverは汎用的なもので使いまわすことができます。
+一般的なコントロールに関してはFriendlyの関連ライブラリで既に実装したものがありますのでそれをご利用ください。
+プロジェクト固有のコントロールや3rdパーティ製のコントロールに関してはそれぞれで実装する必要があります。
+ControlDriverの実装は難易度が高いです。
+それぞれのControlに関しての知識が求められます。
+ただ、それがあればFriendlyの基本機能を使えばほとんどのものが実装可能です。
+
 例えばこのようなカスタムコントロールがあった場合(WPFにはNumericUpDownはありません)
 
 ![NumericUpDwon.png](Img/NumericUpDwon.png)
@@ -97,8 +97,8 @@ public class NumericUpDownControl : Control
     //以下省略
 ``` 
 
-そのコントロールドライバは以下のようになります。<br>
-Friendlyの基本機能を使えば問題なく作成できます。<br>
+そのコントロールドライバは以下のようになります。
+Friendlyの基本機能を使えば問題なく作成できます。
 ```cs 
 using Codeer.Friendly;
 using Codeer.Friendly.Dynamic;
@@ -123,23 +123,23 @@ namespace Driver.CustomDrivers
 }
 ```
 ## WindowDriver/UserControlDriver
-WindowDriverは各Window/Form/UserControl/Pageのドライバです。<br>
-<br>
-WindowやForm自体は通常ButtonやTextBoxなどのControlをレイアウトして作成されます。<br>
-そのためWindowDriverはレイアウトされたControlを特定/取得し、ControlDriverでラップして提供することが目的となります。<br>
-WindowDriver/UserControlDriverは対象の性質上使いまわすことはほとんどなく、対象のWindowに対し一点ものになります。<br>
-<br>
-WindowDriverを実装する際は各Windowの情報が必要になります。<br>
-具体的にはフィールド名やWPFならバインディング名などControlを特定するための情報です。<br>
-ここで必要なものは.Netの知識よりそのアプリの実装/設計に関する情報です。<br>
-WinFormsならフィールドで簡単に特定できることが多いのですが、WPFではx:nameがついていないことも多く、Win32の場合はそもそも.netではないのでフィールドは使えません。<br>
-そのような場合のためにライブラリでいくつか特定するためのメソッドを用意しているのでそれを使ってください。<br>
-これでもダメな場合でもFriendlyの基本を理解すれば自分で新たな特定方法を作ることも可能です。<br>
+WindowDriver/UserControlDriverは各Window/Form/UserControl/Pageのドライバです。
+
+WindowやForm自体は通常ButtonやTextBoxなどのControlをレイアウトして作成されます。
+そのためWindowDriverはレイアウトされたControlを特定/取得し、ControlDriverでラップして提供することが目的となります。
+WindowDriver/UserControlDriverは対象の性質上使いまわすことはほとんどなく、対象のWindow/UserControlに対し一点ものになります。
+
+WindowDriverを実装する際は各Windowの情報が必要になります。
+具体的にはフィールド名やWPFならバインディング名などControlを特定するための情報です。
+ここで必要なものは.Netの知識よりそのアプリの実装/設計に関する情報です。
+WinFormsならフィールドで簡単に特定できることが多いのですが、WPFではx:nameがついていないことも多く、Win32の場合はそもそも.netではないのでフィールドは使えません。
+そのような場合のためにライブラリでいくつか特定するためのメソッドを用意しているのでそれを使ってください。
+これでもダメな場合でもFriendlyの基本を理解すれば自分で新たな特定方法を作ることも可能です。
 + [WPF](https://github.com/Roommetro/Friendly.WPFStandardControls/)
 + [Win32](https://github.com/Codeer-Software/Friendly.Windows.Grasp)
 
-それから、トップレベルのWindowではWindowDriverにはAttachするための拡張メソッドを作ります。<br>
-
+WindowDriverの例です。
+![WindowDriverTarget.png](Img/WindowDriverTarget.png)
 ```cs 
 using Codeer.Friendly.Dynamic;
 using Codeer.Friendly.Windows;
@@ -150,13 +150,14 @@ namespace Driver.Windows
 {
     public class MainWindowDriver
     {
+        //MainWindow自体を操作するためのWindowControl
         public WindowControl Core { get; }
-
-        //フィールドで特定
-        public WPFTextBox Name => thid.Dynamic()._textBoxName;
 
         //タイプで特定
         public WPFMenuBase Menu => Core.LogicalTree().ByType("System.Windows.Controls.Menu").Single().Dynamic();
+
+        //フィールドで特定
+        public WPFTextBox Name => thid.Dynamic()._textBoxName;
 
         //バインディングで特定
         public WPFComboBox Preferredlanguage => Core.LogicalTree().ByBinding("LanguageSearch.Value").Single().Dynamic();
@@ -169,26 +170,12 @@ namespace Driver.Windows
 
         public MainWindowDriver(WindowControl core) => Core = core;
     }
-
-    //Attachを拡張メソッドとして提供する
-    public static class MainWindowDriverExtensions
-    {
-        public static MainWindowDriver AttachMainWindow(this WindowsAppFriend app)
-            => new MainWindowDriver(app.WaitForIdentifyFromTypeFullName("DemoApp.Views.MainWindow"));
-    }
 }
 ```
-```cs
-[TestMethod]
-public void Sample()
-{
-    //Attach
-    var mainWindow = _app.AttachMainWindow();
-    
-    //以下操作
-    mainWindow.Name.EmulateChangeText("ishikawa");
-```
-UserControlは二種類取得する方法が考えられます。<br>
+
+UserControlDriverもほぼ同じ実装方法になります。
+
+![UserControlDriverTarget.png](Img/UserControlDriverTarget.png)
 ```cs
 using Codeer.Friendly;
 using Codeer.Friendly.Dynamic;
@@ -200,7 +187,9 @@ namespace Driver.Windows
 {
     public class EntryControlDriver
     {
+        //EntryControl自体を操作するためのWPFUserControl
         public WPFUserControl Core { get; }
+
         public WPFTextBox Name => Core.Dynamic()._textBoxName;
         public WPFContextMenu NameContextMenu => new WPFContextMenu{Target = Name.AppVar};
         public WPFTextBox email => Core.LogicalTree().ByBinding("Mail.Value").Single().Dynamic();
@@ -218,7 +207,35 @@ namespace Driver.Windows
     }
 }
 ```
-一つ目はControlDriverと同様に親のWindowDriverのプロパティとする方法です。<br>
+
+### Attach
+Attachは対象のWindow/UserControlを検索し、WindowDriver/UserControlDriverを生成するコードになります。
+これもシナリオ中に書くと可読性/メンテナンス性が下がるためドライバの一部として実装します。
+我々はこれを拡張メソッドで実装しています。
+引数で渡した対象から目的のWindow/UserControlを検索しDriverを生成しています。
+下記の例ではWindowsAppFriend(アプリケーション全体)からDemoApp.Views.MainWindowを.Netの型名称を使って検索しMainWindowDriverを生成しています。
+
+```cs 
+//Attachを拡張メソッドとして提供する
+public static class MainWindowDriverExtensions
+{
+    //アプリケーション全体から検索
+    public static MainWindowDriver AttachMainWindow(this WindowsAppFriend app)
+        => app.WaitForIdentifyFromTypeFullName("DemoApp.Views.MainWindow").Dynamic();
+}
+```
+```cs
+[TestMethod]
+public void Sample()
+{
+    //Attach
+    var mainWindow = _app.AttachMainWindow();
+    
+    //以下操作
+    mainWindow.Name.EmulateChangeText("ishikawa");
+```
+
+UserControlの場合はAttachを使わずに、それを保持する親のWindowDriverのプロパティとして取得することも多いです。
 ```cs
 public class MainWindowDriver
 {
@@ -230,18 +247,20 @@ public class MainWindowDriver
     public MainWindow_Driver(WindowControl core) => Core = core;
 }
 ```
-もう一つはWindowDriverにアタッチする拡張メソッドを作成する方法です。<br>
+Attachを作成する場合もあります。
+どちらを使っても構いません。
+UserControlが常に表示されている場合はWindowDriverのプロパティを使い、条件によって表示/非表示が切り替わるものに関してはAttachを使うことが多いです。
+以下の例はMainWindowDriver(DemoApp.Views.MainWindow)からDemoApp.Views.EntryControlを検索して存在していればEntryControlDriverを生成するコードです。
 ```cs
-//拡張メソッドで取得
 public static class EntryControlDriverExtensions
 {
+    //MainWindowDriver(DemoApp.Views.MainWindow)から検索
     public static EntryControlDriver AttachEntryControl(this MainWindowDriver window)
-        => window.Core.VisualTree().ByType("DemoApp.Views.EntryControl").Single().Dynamic();
+        => window.Core.VisualTree().ByType("DemoApp.Views.EntryControl").SingleOrDefault()?.Dynamic();
 }
 ```
-例えばMDIだったりWPFのページのように常に存在するわけではなかったり同一のウィンドウ/UserControlが複数存在する場合に向いています。<br>
-また特殊な例でドッキングウィンドウのような場合、どの親ウィンドウが持っているかわからないようなケースでは<br>
-トップレベルウィンドウでなくともWindowsAppFriendにアタッチする拡張メソッドを作ることもあります。<br>
+UserControlでもアプリケーション全体から検索することもあります。ドッキングタイプのアプリの場合は親ウィンドウが定まりません。
+以下の例ではアプリケーション中の全てのトップレベルウィンドウの中からDemoApp.OutputWindowを検索し存在していればOutputWindowDriverを生成しています。
 ```cs
 public static class OutpuWindowDriverExtensions
 {
@@ -250,10 +269,21 @@ public static class OutpuWindowDriverExtensions
         => app.GetTopLevelWindows().SelectMany(e => e.GetFromTypeFullName("DemoApp.OutputWindow")).FirstOrDefault()?.Dynamic();
 }
 ```
-さらにそれぞれが操作時に対象プロセス内部で実行させる処理を実装するなら、その処理は別のdllに分ける方がおすすめです。<br>
-これは実装効率のためです。対象プロセスにロードさせるとそのプロセスが稼働中の間はそのdllを再度コンパイルすることができません。<br>
-対象プロセスにロードさせる処理は比較的少ないので、分けておくとプロセスが稼働している間にコンパイルすることができます。<br>
 
-最終的にはこのようなDll構成がおすすめです。<br>
+検索条件を引数で渡すこともあります。同一タイプで複数存在している時にタイトルで特定するなどです。特定方法は状況によって最適なもににします。
+```cs 
+public static class DataWindowDriverExtensions
+{
+    public static DataWindowDriver AttachDataWindow(this WindowsAppFriend app, string title)
+        => app.GetFromTypeFullName("DemoApp.Views.DataWindow").Where(e => e.GetWindowText() == title).Dynamic();
+}
+```
+
+## プロジェクト構成
+さらにそれぞれが操作時に対象プロセス内部で実行させる処理を実装するなら、その処理は別のdllに分ける方がおすすめです。
+これは実装効率のためです。対象プロセスにロードさせるとそのプロセスが稼働中の間はそのdllを再度コンパイルすることができません。
+対象プロセスにロードさせる処理は比較的少ないので、分けておくとプロセスが稼働している間にコンパイルすることができます。
+
+最終的にはこのようなプロジェクト構成がおすすめです。
 
 ![Dlls.png](Img/Dlls.png)
