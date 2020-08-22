@@ -57,7 +57,7 @@ public void Sample()
 そのため内部の設計が変わったくらいではシナリオのメンテナンスは発生しません。
 もちろん外部仕様が変わってしまった場合は書き直す必要があります。
 
-# Driver
+# Driver (ControlDriver, WindowDriver/UserControlDriver)
 Driverは逆にあまりテストのことは考えずに対象プロセスを制御することに集中します。
 そして技術的なことやアプリの内部仕様に関してはこのレイヤに隠蔽します。
 Driverはさらに大きくは二種類に分かれます。
@@ -139,6 +139,7 @@ WinFormsならフィールドで簡単に特定できることが多いのです
 + [Win32](https://github.com/Codeer-Software/Friendly.Windows.Grasp)
 
 WindowDriverの例です。
+
 ![WindowDriverTarget.png](Img/WindowDriverTarget.png)
 ```cs 
 using Codeer.Friendly.Dynamic;
