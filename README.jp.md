@@ -6,7 +6,7 @@ Windowsアプリケーション(**WinForms**, **WPF**, and **Win32**)用に設�
 Friendlyという名前は、C++ の friend クラスに由来します。 <br>
 対象のプロセスとFriendになることでどのような操作でも可能にします。<br>
 
-### [Windowsアプリケーションの自動テスト設計](TestAutomationDesign.jp.md)
+### [Driver/Scenarioパターン](TestAutomationDesign.jp.md)
 SeleniumのPageObjectパターンと同じようにFriendlyを使った自動テストでも推奨される設計方針があります。[こちら](TestAutomationDesign.jp.md)も参照してください。
 
 ## .NetCore のアプリケーションも操作することができます。
