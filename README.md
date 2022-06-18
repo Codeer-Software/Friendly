@@ -172,7 +172,7 @@ Provides operations for basic controls such as Button, ListView, TreeView.<br>
 [Friendly.FarPoint(WinForms)](https://github.com/Codeer-Software/Friendly.XamControls)<br>
 [Friendly.C1.Win(WinForms)](https://github.com/Codeer-Software/Friendly.C1.Win)<br>
 
-For example, you'll use these when manuplate with WPF apps.<br>
+For example, you'll use these when manipulate with WPF apps.<br>
 Friendly.Windows.Grasp<br>
 Friendly.WPFStandardControls<br>
 Friendly.NativeStandardContorls<br>
@@ -232,7 +232,7 @@ Here, we will explain the basic functions of Friendly.
 It's about another process's API call and DLL injection.
 
 #### Attention! Match the Processor Architecture. (x86 or x64)
-The target and test processes must use the same processor architectue.
+The target and test processes must use the same processor architecture.
 If you are using VSTest, you can set this by using the Visual Studio menus as shown below.<br>
 ![Match the Processor Architecture](Img/CpuType.png)
 
@@ -260,7 +260,7 @@ dynamic sampleForm2 = _app.Type(typeof(Application)).Current.MainWindow;
 
 dynamic sampleForm4 = _app.Type("System.Windows.Forms.Application").Current.MainWindow;
 ```
-#### Invokeing Instance Operations
+#### Invoking Instance Operations
 ```cs  
 //method
 string value = window.MyFunc(5);
@@ -351,7 +351,7 @@ It will also use in the Friendly libraries interface. Please refer [here](#Frien
 DynamicAppVar can be implicitly converted to a class that has a constructor that takes AppVar as one argument.<br>
 ```cs 
 var window = app.Type<Application>();
-//pulbic WPFDataGrid(AppVar src)
+//public WPFDataGrid(AppVar src)
 WPFDataGrid dataGrid = new WPFDataGrid(window._dataGrid);
 
 //can convert!
@@ -520,7 +520,7 @@ If you put DynamicAppVar here, it works fine.<br>
 
 ```cs 
 var window = app.Type<Application>();
-//pulbic WPFDataGrid(AppVar src)
+//public WPFDataGrid(AppVar src)
 WPFDataGrid dataGrid = new WPFDataGrid(window._dataGrid);
 ```
 ![AppVar.jpg](Img/AppVar.jpg)
@@ -549,7 +549,7 @@ Window windowDst = windowSrc;
 
 //[Codeer.Friendly.FriendlyOperationException]
 //Communication with the application failed.
-//The target applcation may be unreachable or you may be trying to send
+//The target application may be unreachable or you may be trying to send
 //data that cannot be serialized.
 ```
 This happens because the Window class cannot be serialized. <br>
@@ -566,7 +566,7 @@ Classes that implement this interface have the following advantages.<br>
 [TestMethod]
 public void Test()
 {
-    //WindowControl implementes IAppVarOwner.
+    //WindowControl implements IAppVarOwner.
     WindowControl window = _app.WaitForIdentifyFromTypeFullName("DemoApp.Views.MainWindow");
 
     //You can use the Dynamic() extension.
