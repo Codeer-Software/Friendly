@@ -10,7 +10,7 @@ Friendlyという名前は、C++ の friend クラスに由来します。 <br>
 SeleniumのPageObjectパターンと同じようにFriendlyを使った自動テストでも推奨される設計方針があります。[こちら](TestAutomationDesign.jp.md)も参照してください。
 
 ## .NetCore のアプリケーションも操作することができます。
-Friendlyは、.NetCore WinFormsおよびWPFアプリも操作できます。ただし、テストコードは.Net Frameworkで記述する必要があります。
+Friendlyは、.NetCore WinFormsおよびWPFアプリも操作できます。テストコードも.NetCoreで書くことができます。Friendlyは.NetFrameworkでてきているので参照時にワーニングがでます。問題なく使えますのでワーニングを抑制してください。
 
 ## Features ...
 ### 別のプロセスのAPIを呼び出すことができます。
