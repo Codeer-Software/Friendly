@@ -12,7 +12,7 @@ Being friends gives you access to what you normally wouldn't be able to do.<br>
 Similar to the Selenium Page Object pattern, there is a recommended design policy for automated testing with Friendly.[See here.](TestAutomationDesign.md)
 
 ## Friendly support .NetCore.
-Friendly can also operate .NetCore WinForms and WPF apps. But please write the test code in .Net Framework. Sorry.
+Friendly can also operate .NetCore WinForms and WPF apps. Tests can also be written in .NetCore, but a warning will appear, so please exclude 1701 and NU1701.
 
 ## Features ...
 ### Invoke separate process's API.
