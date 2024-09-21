@@ -8,23 +8,20 @@ namespace Codeer.Friendly.Inside.Protocol
 	[Serializable]
 	public class ReturnInfo
 	{
-		object _returnValue;
-		ExceptionInfo _exception;
-
 		/// <summary>
 		/// 戻り値。
 		/// </summary>
-		public object ReturnValue { get { return _returnValue; } }
+		public object ReturnValue { get; set; }
 
 		/// <summary>
 		/// 例外。
 		/// </summary>
-		public ExceptionInfo Exception { get { return _exception; } }
+		public ExceptionInfo Exception { get; set; }
 
-		/// <summary>
-		/// コンストラクタ。
-		/// </summary>
-		public ReturnInfo() { }
+        /// <summary>
+        /// コンストラクタ。
+        /// </summary>
+        public ReturnInfo() { }
 
 		/// <summary>
 		/// コンストラクタ。
@@ -32,7 +29,7 @@ namespace Codeer.Friendly.Inside.Protocol
 		/// <param name="returnValue">戻り値。</param>
 		public ReturnInfo(object returnValue)
 		{
-			_returnValue = returnValue;
+			ReturnValue = returnValue;
 		}
 
 		/// <summary>
@@ -41,7 +38,7 @@ namespace Codeer.Friendly.Inside.Protocol
 		/// <param name="exception">例外情報。</param>
         public ReturnInfo(ExceptionInfo exception)
 		{
-            _exception = exception;
+            Exception = exception;
 		}
 	}
 }

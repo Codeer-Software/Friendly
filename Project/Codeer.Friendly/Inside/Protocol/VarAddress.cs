@@ -8,20 +8,23 @@ namespace Codeer.Friendly.Inside.Protocol
 	[Serializable]
 	public class VarAddress
 	{
-		int _core;
-
 		/// <summary>
 		/// コア。
 		/// </summary>
-		public int Core { get { return _core; } }
+		public int Core { get; set; }
 
 		/// <summary>
-		/// コンストラクタ。
+		/// コンストラクタ
 		/// </summary>
-		/// <param name="core">コア。</param>
-		public VarAddress(int core)
+		public VarAddress() { }
+
+        /// <summary>
+        /// コンストラクタ。
+        /// </summary>
+        /// <param name="core">コア。</param>
+        public VarAddress(int core)
 		{
-			_core = core;
+			Core = core;
 		}
 	}
 }

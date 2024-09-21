@@ -22,8 +22,6 @@ namespace Codeer.Friendly
     [Serializable]
 	public class FriendlyOperationException : Exception
 	{
-        ExceptionInfo _exceptionInfo;
-
 #if ENG
         /// <summary>
         /// Infomation.
@@ -33,7 +31,7 @@ namespace Codeer.Friendly
         /// 例外情報。
         /// </summary>
 #endif
-        public ExceptionInfo ExceptionInfo { get { return _exceptionInfo; } }
+        public ExceptionInfo ExceptionInfo { get; set; }
 
 #if ENG
         /// <summary>
@@ -87,7 +85,7 @@ namespace Codeer.Friendly
 #endif
         public FriendlyOperationException(ExceptionInfo info) : base(ExceptionInfoMessageFormat(info))
         {
-            _exceptionInfo = info;
+            ExceptionInfo = info;
         }
 
 #if ENG
@@ -110,7 +108,7 @@ namespace Codeer.Friendly
             {
                 throw new ArgumentNullException("info");
             }
-            _exceptionInfo = (ExceptionInfo)info.GetValue("_exceptionInfo", typeof(ExceptionInfo));
+            ExceptionInfo = (ExceptionInfo)info.GetValue("_exceptionInfo", typeof(ExceptionInfo));
         }
 
 #if ENG
@@ -134,7 +132,7 @@ namespace Codeer.Friendly
                 throw new ArgumentNullException("info");
             }
 
-            info.AddValue("_exceptionInfo", _exceptionInfo);
+            info.AddValue("_exceptionInfo", ExceptionInfo);
             base.GetObjectData(info, context);
         }
 
