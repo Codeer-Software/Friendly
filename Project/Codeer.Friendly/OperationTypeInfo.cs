@@ -18,9 +18,6 @@ namespace Codeer.Friendly
     [Serializable]
     public class OperationTypeInfo
     {
-        string _target;
-        string[] _arguments;
-
 #if ENG
         /// <summary>
         /// Returns the full class name of the target type for the target operation.
@@ -30,7 +27,7 @@ namespace Codeer.Friendly
         /// 操作を保持する型フルネームです。
         /// </summary>
 #endif
-        public string Target { get { return _target; } }
+        public string Target { get; set; }
 
 #if ENG
         /// <summary>
@@ -41,7 +38,18 @@ namespace Codeer.Friendly
         /// 引数の型のフルネーム配列。
         /// </summary>
 #endif
-        public string[] Arguments { get { return _arguments; } }
+        public string[] Arguments { get; set; }
+
+#if ENG
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+#else
+        /// <summary>
+        /// コンストラクタ。
+        /// </summary>
+#endif
+        public OperationTypeInfo() { }
 
 #if ENG
         /// <summary>
@@ -75,8 +83,8 @@ namespace Codeer.Friendly
                     throw new ArgumentException("arguments is invalid");
                 }
             }
-            _target = target;
-            _arguments = arguments;
+            Target = target;
+            Arguments = arguments;
         }
     }
 }

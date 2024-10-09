@@ -8,42 +8,40 @@ namespace Codeer.Friendly.Inside.Protocol
 	[Serializable]
 	public class ProtocolInfo
 	{
-        ProtocolType _protocolType;
-        OperationTypeInfo _operationTypeInfo;
-        VarAddress _varAddress;
-		string _typeFullName;
-		string _operation;
-		object[] _arguments;
-
         /// <summary>
         /// 通信タイプ。
         /// </summary>
-        public ProtocolType ProtocolType { get { return _protocolType; } }
+        public ProtocolType ProtocolType { get; set; }
 
         /// <summary>
         /// 操作タイプ情報。
         /// </summary>
-        public OperationTypeInfo OperationTypeInfo { get { return _operationTypeInfo; } }
-        
+        public OperationTypeInfo OperationTypeInfo { get; set; }
+
         /// <summary>
-		/// 変数アドレス。
-		/// </summary>
-		public VarAddress VarAddress { get { return _varAddress; } }
+        /// 変数アドレス。
+        /// </summary>
+        public VarAddress VarAddress { get; set; }
 
-		/// <summary>
-		/// タイプフルネーム。
-		/// </summary>
-		public string TypeFullName { get { return _typeFullName; } }
+        /// <summary>
+        /// タイプフルネーム。
+        /// </summary>
+        public string TypeFullName { get; set; }
 
-		/// <summary>
-		/// 操作名称。
-		/// </summary>
-		public string Operation { get { return _operation; } }
+        /// <summary>
+        /// 操作名称。
+        /// </summary>
+        public string Operation { get; set; }
 
         /// <summary>
         /// 引数。
         /// </summary>
-        public object[] Arguments { get { return _arguments; } }
+        public object[] Arguments { get; set; }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public ProtocolInfo() { }
 
         /// <summary>
 		/// コンストラクタ。
@@ -56,12 +54,12 @@ namespace Codeer.Friendly.Inside.Protocol
 		/// <param name="arguments">引数。</param>
         public ProtocolInfo(ProtocolType protocolType, OperationTypeInfo operationTypeInfo, VarAddress varAddress, string typeFullName, string operation, object[] arguments)
 		{
-            _protocolType = protocolType;
-            _operationTypeInfo = operationTypeInfo;
-            _varAddress = varAddress;
-			_typeFullName = typeFullName;
-			_operation = operation;
-			_arguments = arguments;
+            ProtocolType = protocolType;
+            OperationTypeInfo = operationTypeInfo;
+            VarAddress = varAddress;
+			TypeFullName = typeFullName;
+			Operation = operation;
+			Arguments = arguments;
 		}
 	}
 }

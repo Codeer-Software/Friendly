@@ -9,36 +9,35 @@ namespace Codeer.Friendly.Inside.Protocol
     [Serializable]
     public class ExceptionInfo
     {
-        string _message = string.Empty;
-        string _exceptionType = string.Empty;
-        string _helpLink = string.Empty;
-        string _source = string.Empty;
-        string _stackTrace = string.Empty;
-
         /// <summary>
         /// 例外のタイプ文字列。
         /// </summary>
-        public string ExceptionType { get { return _exceptionType; } }
+        public string ExceptionType { get; set; }
 
         /// <summary>
         /// 例外に関連付けられているヘルプ ファイルへのリンク。
         /// </summary>
-        public string HelpLink { get { return _helpLink; } }
+        public string HelpLink { get; set; }
 
         /// <summary>
         /// 現在の例外を説明するメッセージ。
         /// </summary>
-        public string Message { get { return _message; } }
-        
+        public string Message { get; set; }
+
         /// <summary>
         /// エラーの原因となったアプリケーションまたはオブジェクトの名前。
         /// </summary>
-        public string Source { get { return _source; } }
+        public string Source { get; set; }
 
         /// <summary>
         /// 現在の例外がスローされたときにコール スタック。
         /// </summary>
-        public string StackTrace { get { return _stackTrace; } }
+        public string StackTrace { get; set; }
+
+        /// <summary>
+        /// コンストラクタ。
+        /// </summary>
+        public ExceptionInfo() { }
 
         /// <summary>
         /// コンストラクタ。
@@ -54,7 +53,7 @@ namespace Codeer.Friendly.Inside.Protocol
             //アプリ内部でFriendly系の処理によって発生した想定内の例外はメッセージのみ返す。
             if (exception is InformationException)
             {
-                _message = exception.Message;
+                Message = exception.Message;
                 return;
             }
 
@@ -63,11 +62,11 @@ namespace Codeer.Friendly.Inside.Protocol
             {
                 exception = exception.InnerException;
             }
-            _message = exception.Message;
-            _exceptionType = exception.GetType().FullName;
-            _helpLink = exception.HelpLink;
-            _source = exception.Source;
-            _stackTrace = exception.StackTrace;
+            Message = exception.Message;
+            ExceptionType = exception.GetType().FullName;
+            HelpLink = exception.HelpLink;
+            Source = exception.Source;
+            StackTrace = exception.StackTrace;
         }
     }
 }
