@@ -8,6 +8,11 @@ It is currently designed for Windows Applications (**WinForms**, **WPF**, and **
 The name Friendly is derived from the C++ friend class. <br>
 Being friends gives you access to what you normally wouldn't be able to do.<br>
 
+### [Regarding Customization in Response to the Deprecation of BinaryFormatter](CustomSerializer.md)
+Starting from .NET 9, BinaryFormatter will be deprecated.
+In Friendly, this is used for data serialization in inter-process communication.
+We have now enabled customization of serialization, so for the .NET environment please refer to [this document](CustomSerializer.md).
+
 ### [Automatic test design for Windows applications](TestAutomationDesign.md)
 Similar to the Selenium Page Object pattern, there is a recommended design policy for automated testing with Friendly.[See here.](TestAutomationDesign.md)
 

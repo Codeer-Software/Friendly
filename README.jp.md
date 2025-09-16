@@ -6,6 +6,9 @@ Windowsアプリケーション(**WinForms**, **WPF**, and **Win32**)用に設�
 Friendlyという名前は、C++ の friend クラスに由来します。 <br>
 対象のプロセスとFriendになることでどのような操作でも可能にします。<br>
 
+### [BinaryFormatter廃止に伴うカスタマイズに関して](CustomSerializer.jp.md)
+.NET 9 から BinaryFormatter が廃止されます。Friendlyではプロセス間通信でのデータのシリアライズにこれを使っています。シリアライズをカスタマイズできるようにしましたので.NET環境では[こちら](CustomSerializer.jp.md)をご利用ください。
+
 ### [Driver/Scenarioパターン](TestAutomationDesign.jp.md)
 SeleniumのPageObjectパターンと同じようにFriendlyを使った自動テストでも推奨される設計方針があります。[こちら](TestAutomationDesign.jp.md)も参照してください。
 
